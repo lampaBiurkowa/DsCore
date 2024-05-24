@@ -4,8 +4,14 @@ namespace DsIdentity.ApiClient;
 
 public static class HttpContextExtensions
 {
-    public static string? GetUserGuid(this HttpContext ctx) =>
-        ctx.User.Claims.FirstOrDefault(x => x.Type == ClaimNames.USER_GUID)?.Value;
+    public static Guid? GetUserGuid(this HttpContext ctx)
+    {
+        var claim = ctx.User.Claims.FirstOrDefault(x => x.Type == ClaimNames.USER_GUID)?.Value;
+        if (Guid.TryParse(claim, out var result))
+            return result;
+        
+        return null;
+    }
 
     public static string? GetBearerToken(this HttpContext ctx)
     {

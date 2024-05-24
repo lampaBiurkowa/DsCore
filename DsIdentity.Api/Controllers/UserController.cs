@@ -71,13 +71,13 @@ public class UserController(Repository<User> repo, Repository<Follow> followRepo
     [Route("UploadProfileImage")]
     public async Task<ActionResult<string>> UploadProfileImage(IFormFile file, CancellationToken ct)
     {
-        var userClaim = HttpContext.GetUserGuid();
+        var userGuid = HttpContext.GetUserGuid();
         var token = HttpContext.GetBearerToken();
 
-        if (userClaim == null || !Guid.TryParse(userClaim, out var userGuid) || token == null)
+        if (userGuid == null || token == null)
             return Unauthorized();
 
-        var userId = userGuid.Deobfuscate().Id;
+        var userId = ((Guid)userGuid).Deobfuscate().Id;
         var user = await repo.GetById(userId, ct: ct);
         if (user == null) return Unauthorized();
         
