@@ -15,4 +15,7 @@ public static class HttpContextExtensions
 
         return null;
     }
+
+    public static bool IsUser(this HttpContext ctx, Guid userGuid) =>
+        ctx.User.Claims.FirstOrDefault(x => x.Type == ClaimNames.USER_GUID)?.Value == userGuid.ToString();
 }
