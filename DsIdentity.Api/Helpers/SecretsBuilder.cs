@@ -7,7 +7,8 @@ using DsIdentity.Api.Options;
 using DsIdentity.ApiClient;
 
 namespace DsIdentity.Api.Helpers;
-static class SecretsBuilder
+
+public static class SecretsBuilder //TODO remove public
 {
     public static string GenerateSalt(int size = 16)
     {

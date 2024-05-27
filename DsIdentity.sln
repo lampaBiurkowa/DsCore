@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DsIdentity.Models", "DsIden
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DsIdentity.ApiClient", "DsIdentity.ApiClient\DsIdentity.ApiClient.csproj", "{4EA896B1-7C0D-46A6-A0E0-996AABE76F87}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Generator", "Generator\Generator.csproj", "{06028B39-7415-49CA-B01A-D870CA9863B0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{4EA896B1-7C0D-46A6-A0E0-996AABE76F87}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4EA896B1-7C0D-46A6-A0E0-996AABE76F87}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4EA896B1-7C0D-46A6-A0E0-996AABE76F87}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06028B39-7415-49CA-B01A-D870CA9863B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06028B39-7415-49CA-B01A-D870CA9863B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06028B39-7415-49CA-B01A-D870CA9863B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06028B39-7415-49CA-B01A-D870CA9863B0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
