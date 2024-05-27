@@ -21,9 +21,9 @@ public class Generator
         db.User.Add(new () { Alias = "karton", Email = "l@d.d", Surname = "Pospolity", Name = "Karton", ProfileImage="chad.png"});
         db.User.Add(new () { Alias = "julzal", Email = "m@d.d", Surname = "Zalewski", Name = "Julian", ProfileImage="angry.jpg"});
         db.User.Add(new () { Alias = "kjub", Email = "n@d.d", Surname = "Głuszek", Name = "Jakub", ProfileImage="en57.jpg"});
-        db.User.Add(new () { Alias = "biden", Email = "o@d.d", Surname = "d", Name = "Joe", ProfileImage="biden.jpg"});
+        db.User.Add(new () { Alias = "biden", Email = "o@d.d", Surname = "Biden", Name = "Joe", ProfileImage="biden.jpg"});
         db.User.Add(new () { Alias = "trump", Email = "p@d.d", Surname = "Trump", Name = "Donald J", ProfileImage="trump.jpg"});
-        db.User.Add(new () { Alias = "sussy", Email = "q@d.d", Surname = "Supińska", Name = "Karolina", ProfileImage="suspinska.jpg"});
+        db.User.Add(new () { Alias = "sussy", Email = "q@d.d", Surname = "Supińska", Name = "Karolina", ProfileImage="suspinska.png"});
         db.SaveChanges();
 
         for (int i = 0; i < db.User.Count(); i++)
