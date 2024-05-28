@@ -23,7 +23,7 @@ public class UserController(Repository<User> repo, Repository<Follow> followRepo
         if (HttpContext.User.Claims.First(x => x.Type == "userId").Value != id.ToString())
             return Unauthorized();
         
-        var user = await repo.GetById(id.Deobfuscate().Id, ct);
+        var user = await repo.GetById(id.Deobfuscate().Id, ct: ct);
         if (user == null) return Problem();
 
         user.LastOnline = DateTime.UtcNow;
@@ -35,7 +35,7 @@ public class UserController(Repository<User> repo, Repository<Follow> followRepo
     [HttpGet]
     [Route("IsOnline/{id}")]
     public async Task<ActionResult<bool>> IsOnline(Guid id, CancellationToken ct) =>
-        Ok(DateTime.UtcNow - (await repo.GetById(id.Deobfuscate().Id, ct))?.LastOnline < TimeSpan.FromMinutes(ONLINE_TIME_TRESHOLD));
+        Ok(DateTime.UtcNow - (await repo.GetById(id.Deobfuscate().Id, ct: ct))?.LastOnline < TimeSpan.FromMinutes(ONLINE_TIME_TRESHOLD));
 
     [HttpGet]
     [Route("Followers/{id}")]
@@ -43,7 +43,7 @@ public class UserController(Repository<User> repo, Repository<Follow> followRepo
     {
         var userId = id.Deobfuscate().Id;
         var ids = (await followRepo.GetAll(restrict: x => x.FollowerId == userId, ct: ct)).Select(x => x.FollowedId);
-        return Ok(await repo.GetByIds(ids, ct));
+        return Ok(await repo.GetByIds(ids, ct: ct));
     }
 
     [HttpGet]
@@ -52,19 +52,13 @@ public class UserController(Repository<User> repo, Repository<Follow> followRepo
     {
         var userId = id.Deobfuscate().Id;
         var ids = (await followRepo.GetAll(restrict: x => x.FollowedId == userId, ct: ct)).Select(x => x.FollowerId);
-        return Ok(await repo.GetByIds(ids, ct));
+        return Ok(await repo.GetByIds(ids, ct: ct));
     }
 
     [HttpGet]
     [Route("GetId/{alias}")]
-    public async Task<ActionResult<Guid>> GetId(string alias, CancellationToken ct)
-    {
-        var user = (await repo.GetAll(restrict: x => x.Alias == alias, ct: ct)).FirstOrDefault();
-        if (user == null) return Problem();
-
-        HidePrivateId(user); //█▬█ █ ▀█▀
-        return Ok(user.Guid);
-    }
+    public async Task<ActionResult<Guid?>> GetId(string alias, CancellationToken ct) =>
+        Ok((await repo.GetAll(restrict: x => x.Alias == alias, ct: ct)).FirstOrDefault()?.Guid);
 
     [HttpPost]
     [Authorize]

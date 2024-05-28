@@ -35,9 +35,11 @@ public class Generator
             {
                 Password = passwordNewHash,
                 Salt = salt,
-                User = db.User.ElementAt(0),
+                User = db.User.ElementAt(i),
                 VerificationCode = SecretsBuilder.TextToBase64(verificationCode)
             };
+            db.Credentials.Add(credentials);
         }
+        db.SaveChanges();
     }
 }

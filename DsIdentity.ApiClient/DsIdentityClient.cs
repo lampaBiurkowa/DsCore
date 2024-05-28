@@ -718,14 +718,14 @@ namespace DsIdentity.ApiClient
         }
 
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<System.Guid> User_GetIdAsync(string alias)
+        public virtual System.Threading.Tasks.Task<System.Guid?> User_GetIdAsync(string alias)
         {
             return User_GetIdAsync(alias, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<System.Guid> User_GetIdAsync(string alias, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Guid?> User_GetIdAsync(string alias, System.Threading.CancellationToken cancellationToken)
         {
             if (alias == null)
                 throw new System.ArgumentNullException("alias");
@@ -770,11 +770,7 @@ namespace DsIdentity.ApiClient
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<System.Guid>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
+                            var objectResponse_ = await ReadObjectResponseAsync<System.Guid?>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             return objectResponse_.Object;
                         }
                         else
