@@ -1,4 +1,4 @@
-using DsIdentity.Models;
+using DsCore.Api.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

@@ -1,12 +1,12 @@
-﻿using DsIdentity.Infrastructure;
-using DsIdentity.Models;
-using DsIdentity.Api.Helpers;
+﻿using DsCore.Infrastructure;
+using DsCore.Api.Models;
+using DsCore.Api.Helpers;
 
 public class Generator
 {
     public static void Main()
     {
-        var db = new DsIdentityContext();
+        var db = new DsCoreContext();
         db.Database.EnsureDeleted();
         db.Database.EnsureCreated();
 

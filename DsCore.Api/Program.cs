@@ -1,7 +1,7 @@
 using DibBase.Infrastructure;
-using DsIdentity.ApiClient;
-using DsIdentity.Api.Options;
-using DsIdentity.Infrastructure;
+using DsCore.ApiClient;
+using DsCore.Api.Options;
+using DsCore.Infrastructure;
 using DsStorage.ApiClient;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,10 +13,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSwaggerDocument();
 
-builder.Services.AddDbContext<DbContext, DsIdentityContext>();
+builder.Services.AddDbContext<DbContext, DsCoreContext>();
 var entityTypes = new List<Type>();
 var assemblies = AppDomain.CurrentDomain.GetAssemblies();
-DsIdentity.Models.User a;//█▬█ █ ▀█▀
+DsCore.Api.Models.User a;//█▬█ █ ▀█▀
 foreach (var assembly in assemblies)
 {
     entityTypes.AddRange(assembly.GetTypes().Where(type => type.IsSubclassOf(typeof(DibBase.ModelBase.Entity))).ToList());

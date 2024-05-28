@@ -4,19 +4,19 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 
-namespace DsIdentity.ApiClient;
+namespace DsCore.ApiClient;
 
 public static class ConfigurationExtensions
 {
-    public static void AddDsIdentity(this IConfiguration configuration, IServiceCollection services)
+    public static void AddDsCore(this IConfiguration configuration, IServiceCollection services)
     {
-        services.AddOptions<DsIdentityOptions>()
-            .Bind(configuration.GetSection(DsIdentityOptions.SECTION));
+        services.AddOptions<DsCoreOptions>()
+            .Bind(configuration.GetSection(DsCoreOptions.SECTION));
 
         services.AddHttpClient();
-        services.AddTransient<DsIdentityClientFactory>();
+        services.AddTransient<DsCoreClientFactory>();
         
-        var tokenOptions = configuration.GetSection(DsIdentityOptions.SECTION).Get<DsIdentityOptions>() ?? throw new("No auth options");
+        var tokenOptions = configuration.GetSection(DsCoreOptions.SECTION).Get<DsCoreOptions>() ?? throw new("No auth options");
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {

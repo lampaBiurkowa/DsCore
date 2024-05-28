@@ -1,14 +1,14 @@
 using DibBase.Extensions;
 using DibBase.Infrastructure;
 using DibBaseSampleApi.Controllers;
-using DsIdentity.ApiClient;
-using DsIdentity.Models;
+using DsCore.ApiClient;
+using DsCore.Api.Models;
 using DsStorage.ApiClient;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using User = DsIdentity.Models.User;
+using User = DsCore.Api.Models.User;
 
-namespace DsIdentity.Api;
+namespace DsCore.Api;
 
 [ApiController]
 [Route("[controller]")]

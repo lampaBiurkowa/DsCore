@@ -1,4 +1,4 @@
-namespace DsIdentity.Api.Options;
+namespace DsCore.Api.Options;
 
 public class TokenOptions
 {

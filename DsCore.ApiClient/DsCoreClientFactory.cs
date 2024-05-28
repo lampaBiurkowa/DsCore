@@ -1,18 +1,18 @@
 using System.Net.Http.Headers;
 using Microsoft.Extensions.Options;
 
-namespace DsIdentity.ApiClient;
+namespace DsCore.ApiClient;
 
-public class DsIdentityClientFactory(IHttpClientFactory httpClientFactory, IOptions<DsIdentityOptions> options)
+public class DsCoreClientFactory(IHttpClientFactory httpClientFactory, IOptions<DsCoreOptions> options)
 {
     readonly IHttpClientFactory _httpClientFactory = httpClientFactory;
-    readonly DsIdentityOptions options = options.Value;
+    readonly DsCoreOptions options = options.Value;
 
-    public DsIdentityClient CreateClient(string bearerToken)
+    public DsCoreClient CreateClient(string bearerToken)
     {
         var client = _httpClientFactory.CreateClient();
         client.BaseAddress = new ($"{options.Url.TrimEnd('/')}/");
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", bearerToken);
-        return new DsIdentityClient(client);
+        return new DsCoreClient(client);
     }
 }

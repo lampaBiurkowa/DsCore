@@ -9,6 +9,6 @@
 
 
   <ItemGroup>
-    <ProjectReference Include="..\DsIdentity.Api\DsIdentity.Api.csproj" />
+    <ProjectReference Include="..\DsCore.Api\DsCore.Api.csproj" />
   </ItemGroup>
 </Project>

@@ -3,11 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DsIdentity.Api", "DsIdentity.Api\DsIdentity.Api.csproj", "{BEE2C7D7-BDB4-405A-81BF-EE3DE46EDABC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DsCore.Api", "DsCore.Api\DsCore.Api.csproj", "{BEE2C7D7-BDB4-405A-81BF-EE3DE46EDABC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DsIdentity.Models", "DsIdentity.Models\DsIdentity.Models.csproj", "{5899F4BD-F282-4585-82ED-ADDB2270C166}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DsIdentity.ApiClient", "DsIdentity.ApiClient\DsIdentity.ApiClient.csproj", "{4EA896B1-7C0D-46A6-A0E0-996AABE76F87}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DsCore.ApiClient", "DsCore.ApiClient\DsCore.ApiClient.csproj", "{4EA896B1-7C0D-46A6-A0E0-996AABE76F87}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Generator", "Generator\Generator.csproj", "{06028B39-7415-49CA-B01A-D870CA9863B0}"
 EndProject
@@ -21,10 +19,6 @@ Global
 		{BEE2C7D7-BDB4-405A-81BF-EE3DE46EDABC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BEE2C7D7-BDB4-405A-81BF-EE3DE46EDABC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BEE2C7D7-BDB4-405A-81BF-EE3DE46EDABC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5899F4BD-F282-4585-82ED-ADDB2270C166}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5899F4BD-F282-4585-82ED-ADDB2270C166}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5899F4BD-F282-4585-82ED-ADDB2270C166}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5899F4BD-F282-4585-82ED-ADDB2270C166}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4EA896B1-7C0D-46A6-A0E0-996AABE76F87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4EA896B1-7C0D-46A6-A0E0-996AABE76F87}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4EA896B1-7C0D-46A6-A0E0-996AABE76F87}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -23,8 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DsIdentity.Models\DsIdentity.Models.csproj" />
-    <ProjectReference Include="..\DsIdentity.ApiClient\DsIdentity.ApiClient.csproj" PrivateAssets="all" />
+    <ProjectReference Include="..\DsCore.ApiClient\DsCore.ApiClient.csproj" PrivateAssets="all" />
   </ItemGroup>
 
   <Target Name="GenerateClientCode" BeforeTargets="AfterBuild">

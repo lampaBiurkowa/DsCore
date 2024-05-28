@@ -3,10 +3,10 @@ using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using DsIdentity.Api.Options;
-using DsIdentity.ApiClient;
+using DsCore.Api.Options;
+using DsCore.ApiClient;
 
-namespace DsIdentity.Api.Helpers;
+namespace DsCore.Api.Helpers;
 
 public static class SecretsBuilder //TODO remove public
 {

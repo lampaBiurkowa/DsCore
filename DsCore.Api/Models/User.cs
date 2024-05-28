@@ -1,6 +1,6 @@
 ﻿using DibBase.ModelBase;
 
-namespace DsIdentity.Models;
+namespace DsCore.Api.Models;
 
 public class User : Entity, IAudited, ITimeStamped, ISoftDelete
 {

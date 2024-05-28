@@ -1,11 +1,11 @@
 using DibBase.Infrastructure;
-using DsIdentity.Models;
+using DsCore.Api.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
-namespace DsIdentity.Infrastructure;
+namespace DsCore.Infrastructure;
 
-public class DsIdentityContext : DibContext
+public class DsCoreContext : DibContext
 {
     public DbSet<User> User { get; set; }
     public DbSet<Follow> Follow { get; set; }
@@ -13,7 +13,7 @@ public class DsIdentityContext : DibContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseMySql("Server=localhost;Database=DsIdentity;User=root;Password=root;", new MySqlServerVersion(new Version(5, 7, 0)));
+        optionsBuilder.UseMySql("Server=localhost;Database=DsCore;User=root;Password=root;", new MySqlServerVersion(new Version(5, 7, 0)));
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

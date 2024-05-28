@@ -1,4 +1,4 @@
-namespace DsIdentity.ApiClient;
+namespace DsCore.ApiClient;
 
 public class ClaimNames
 {

@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Http;
 
-namespace DsIdentity.ApiClient;
+namespace DsCore.ApiClient;
 
 public static class HttpContextExtensions
 {

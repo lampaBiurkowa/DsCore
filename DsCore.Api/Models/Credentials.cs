@@ -1,7 +1,7 @@
 using DibBase.ModelBase;
 using DibBase.Obfuscation;
 
-namespace DsIdentity.Models;
+namespace DsCore.Api.Models;
 
 public class Credentials : Entity
 {
