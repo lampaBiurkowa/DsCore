@@ -10,7 +10,7 @@ public class Payment : Entity
     [DsLong]
     public long UserId { get; set; }
     public required User User { get; set; }
-    public long Value { get; set; }
+    public float Value { get; set; }
     [DsGuid(nameof(Currency))]
     public Guid CurrencyGuid { get; set; }
     [DsLong]

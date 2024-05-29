@@ -2276,7 +2276,7 @@ namespace DsCore.ApiClient
         public User User { get; set; }
 
         [Newtonsoft.Json.JsonProperty("value", Required = Newtonsoft.Json.Required.Always)]
-        public long Value { get; set; }
+        public float Value { get; set; }
 
         [Newtonsoft.Json.JsonProperty("currencyGuid", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
