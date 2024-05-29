@@ -11,7 +11,7 @@ public class DsCoreContext : DibContext
     public DbSet<Follow> Follow { get; set; }
     public DbSet<Credentials> Credentials { get; set; }
     public DbSet<Currency> Currency { get; set; }
-    public DbSet<Subscribtion> Subscribtion { get; set; }
+    public DbSet<Subscription> Subscription { get; set; }
     public DbSet<Payment> Payment { get; set; }
     public DbSet<Transaction> Transaction { get; set; }
 

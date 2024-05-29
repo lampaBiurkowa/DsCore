@@ -12,10 +12,10 @@ namespace DsCore.Api;
 [Route("[controller]")]
 public class BillingController(
     Repository<Transaction> transactionRepo,
-    Repository<Subscribtion> subscribtionRepo) : ControllerBase
+    Repository<Subscription> subscriptionRepo) : ControllerBase
 {
     readonly Repository<Transaction> transactionRepo = transactionRepo;
-    readonly Repository<Subscribtion> subscribtionRepo = subscribtionRepo;
+    readonly Repository<Subscription> subscriptionRepo = subscriptionRepo;
 
     [Authorize]
     [HttpGet("money/{currencyGuid}")]
@@ -49,9 +49,9 @@ public class BillingController(
         var userGuid = HttpContext.GetUserGuid();
         if (userGuid == null) return Unauthorized();
 
-        var subscribtion = new Subscribtion { Payment = payment };
-        await subscribtionRepo.InsertAsync(subscribtion, ct);
-        await subscribtionRepo.CommitAsync(ct);
+        var subscription = new Subscription { Payment = payment };
+        await subscriptionRepo.InsertAsync(subscription, ct);
+        await subscriptionRepo.CommitAsync(ct);
 
         return Ok();
     }
@@ -63,10 +63,10 @@ public class BillingController(
         var userGuid = HttpContext.GetUserGuid();
         if (userGuid == null) return Unauthorized();
 
-        var subscribction = await subscribtionRepo.GetById(guid.Deobfuscate().Id, [x => x.Payment], ct);
+        var subscribction = await subscriptionRepo.GetById(guid.Deobfuscate().Id, [x => x.Payment], ct);
         if (subscribction?.Payment.UserGuid != userGuid) return Unauthorized();
 
-        await subscribtionRepo.DeleteAsync(guid.Deobfuscate().Id, ct);
+        await subscriptionRepo.DeleteAsync(guid.Deobfuscate().Id, ct);
         return Ok();
     }
 }

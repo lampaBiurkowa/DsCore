@@ -3,9 +3,9 @@ using DsCore.Api.Models;
 
 namespace DsCore.Services;
 
-class SubscribtionService(Repository<Subscribtion> subscribtionRepo, Repository<Transaction> transactionRepo) : BackgroundService
+class SubscriptionService(Repository<Subscription> subscriptionRepo, Repository<Transaction> transactionRepo) : BackgroundService
 {
-    readonly Repository<Subscribtion> subscribtionRepo = subscribtionRepo;
+    readonly Repository<Subscription> subscriptionRepo = subscriptionRepo;
     readonly Repository<Transaction> transactionRepo = transactionRepo;
     readonly TimeSpan checkInterval = TimeSpan.FromSeconds(5);
 
@@ -13,14 +13,14 @@ class SubscribtionService(Repository<Subscribtion> subscribtionRepo, Repository<
     {
         while (!ct.IsCancellationRequested)
         {
-            var unpaidSubscribtions = await subscribtionRepo.GetAll(restrict: x => x.UpdatedAt + x.PaymentInterval < DateTime.Now, expand: [x => x.Payment]);
-            foreach (var s in unpaidSubscribtions)
+            var unpaidSubscriptions = await subscriptionRepo.GetAll(restrict: x => x.UpdatedAt + x.PaymentInterval < DateTime.Now, expand: [x => x.Payment]);
+            foreach (var s in unpaidSubscriptions)
             {
-                await subscribtionRepo.UpdateAsync(s, ct);
+                await subscriptionRepo.UpdateAsync(s, ct);
                 await transactionRepo.InsertAsync(new() { PaymentId = s.PaymentId }, ct);
             }
             
-            if (unpaidSubscribtions.Count != 0)
+            if (unpaidSubscriptions.Count != 0)
                 await transactionRepo.CommitAsync(ct);
             
             await Task.Delay(checkInterval, ct);
