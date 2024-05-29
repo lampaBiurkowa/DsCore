@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="DibBaseApi" Version="0.0.20" />
+    <PackageReference Include="DsCryptoLib" Version="1.0.3" />
     <PackageReference Include="DsStorage.ApiClient" Version="1.0.9" PrivateAssets="all" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.3" />
     <PackageReference Include="NSwag.AspNetCore" Version="14.0.7" />

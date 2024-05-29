@@ -559,14 +559,14 @@ namespace DsCore.ApiClient
         }
 
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<bool> Billing_AddCyclicFeeAsync(Payment payment, System.TimeSpan? paymentInterval)
+        public virtual System.Threading.Tasks.Task<System.Guid?> Billing_AddCyclicFeeAsync(Payment payment, System.TimeSpan? paymentInterval)
         {
             return Billing_AddCyclicFeeAsync(payment, paymentInterval, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<bool> Billing_AddCyclicFeeAsync(Payment payment, System.TimeSpan? paymentInterval, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<System.Guid?> Billing_AddCyclicFeeAsync(Payment payment, System.TimeSpan? paymentInterval, System.Threading.CancellationToken cancellationToken)
         {
             if (payment == null)
                 throw new System.ArgumentNullException("payment");
@@ -620,11 +620,7 @@ namespace DsCore.ApiClient
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<bool>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
+                            var objectResponse_ = await ReadObjectResponseAsync<System.Guid?>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             return objectResponse_.Object;
                         }
                         else
@@ -648,14 +644,14 @@ namespace DsCore.ApiClient
         }
 
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<long> Billing_CancelCyclicFeeAsync(System.Guid guid)
+        public virtual System.Threading.Tasks.Task<FileResponse> Billing_CancelCyclicFeeAsync(System.Guid guid)
         {
             return Billing_CancelCyclicFeeAsync(guid, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<long> Billing_CancelCyclicFeeAsync(System.Guid guid, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<FileResponse> Billing_CancelCyclicFeeAsync(System.Guid guid, System.Threading.CancellationToken cancellationToken)
         {
             if (guid == null)
                 throw new System.ArgumentNullException("guid");
@@ -666,9 +662,9 @@ namespace DsCore.ApiClient
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
-                    request_.Content = new System.Net.Http.StringContent(string.Empty, System.Text.Encoding.UTF8, "application/json");
+                    request_.Content = new System.Net.Http.StringContent(string.Empty, System.Text.Encoding.UTF8, "application/octet-stream");
                     request_.Method = new System.Net.Http.HttpMethod("POST");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/octet-stream"));
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
@@ -700,14 +696,12 @@ namespace DsCore.ApiClient
                         ProcessResponse(client_, response_);
 
                         var status_ = (int)response_.StatusCode;
-                        if (status_ == 200)
+                        if (status_ == 200 || status_ == 206)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<long>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            var responseStream_ = response_.Content == null ? System.IO.Stream.Null : await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
+                            var fileResponse_ = new FileResponse(status_, headers_, responseStream_, null, response_);
+                            disposeClient_ = false; disposeResponse_ = false; // response and client are disposed by FileResponse
+                            return fileResponse_;
                         }
                         else
                         {

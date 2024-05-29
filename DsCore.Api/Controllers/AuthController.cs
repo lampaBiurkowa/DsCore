@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using User = DsCore.Api.Models.User;
 using DibBase.Extensions;
+using DsCryptoLib;
 
 namespace DsCore.Api;
 
@@ -26,7 +27,7 @@ public class AuthController(Repository<Credentials> repo, Repository<User> userR
         if (credentials.Password != passwordNewHash)
             return Unauthorized();
         
-        var token = SecretsBuilder.BuildToken(userGuid, options.Value);
+        var token = JwtBuilder.BuildToken(userGuid, options.Value);
         return Ok(token);
     }
 

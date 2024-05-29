@@ -49,24 +49,24 @@ public class BillingController(
 
     [Authorize]
     [HttpPost("cyclic-fee")]
-    public async Task<ActionResult<bool>> AddCyclicFee(Payment payment, TimeSpan paymentInterval, CancellationToken ct)
+    public async Task<ActionResult<Guid?>> AddCyclicFee(Payment payment, TimeSpan paymentInterval, CancellationToken ct)
     {
         var userGuid = HttpContext.GetUserGuid();
         if (userGuid == null) return Unauthorized();
 
         if ((await GetMoney(payment.Currency.Guid, ct)).Value < payment.Value)
-            return Ok(false);
+            return Ok(null);
 
         var cyclicFee = new CyclicFee { Payment = payment, PaymentInterval = paymentInterval};
         await cyclicFeeRepo.InsertAsync(cyclicFee, ct);
         await cyclicFeeRepo.CommitAsync(ct);
 
-        return Ok(true);
+        return Ok(cyclicFee.Guid);
     }
 
     [Authorize]
     [HttpPost("cyclic-fee/{guid}/cancel")]
-    public async Task<ActionResult<long>> CancelCyclicFee(Guid guid, CancellationToken ct)
+    public async Task<ActionResult> CancelCyclicFee(Guid guid, CancellationToken ct)
     {
         var userGuid = HttpContext.GetUserGuid();
         if (userGuid == null) return Unauthorized();
