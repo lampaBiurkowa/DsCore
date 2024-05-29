@@ -32,7 +32,7 @@ builder.Services.AddOptions<TokenOptions>()
     .ValidateDataAnnotations();
 builder.Configuration.AddDsStorage(builder.Services);
 builder.Services.AddAuthorization();
-builder.Services.AddHostedService<CyclicFeeService>();
+builder.Services.AddHostedService<Subscription>();
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())

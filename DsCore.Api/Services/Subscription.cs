@@ -3,16 +3,16 @@ using DsCore.Api.Models;
 
 namespace DsCore.Services;
 
-class CyclicFeeService(Repository<CyclicFee> cyclicFeeRepo, Repository<Transaction> transactionRepo) : BackgroundService
+class Subscription(IServiceProvider sp) : BackgroundService
 {
-    readonly Repository<CyclicFee> cyclicFeeRepo = cyclicFeeRepo;
-    readonly Repository<Transaction> transactionRepo = transactionRepo;
     readonly TimeSpan checkInterval = TimeSpan.FromSeconds(5);
 
     protected override async Task ExecuteAsync(CancellationToken ct)
     {
         while (!ct.IsCancellationRequested)
         {
+            var cyclicFeeRepo = sp.GetRequiredService<Repository<CyclicFee>>();
+            var transactionRepo = sp.GetRequiredService<Repository<CyclicFee>>();
             var unpaidCyclicFees = await cyclicFeeRepo.GetAll(restrict: x => x.UpdatedAt + x.PaymentInterval < DateTime.Now, expand: [x => x.Payment]);
             foreach (var s in unpaidCyclicFees)
             {
@@ -21,7 +21,10 @@ class CyclicFeeService(Repository<CyclicFee> cyclicFeeRepo, Repository<Transacti
             }
             
             if (unpaidCyclicFees.Count != 0)
+            {
+                await cyclicFeeRepo.CommitAsync(ct); // :D/
                 await transactionRepo.CommitAsync(ct);
+            }
             
             await Task.Delay(checkInterval, ct);
         }
