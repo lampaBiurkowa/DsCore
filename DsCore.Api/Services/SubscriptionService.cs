@@ -3,7 +3,7 @@ using DsCore.Api.Models;
 
 namespace DsCore.Services;
 
-class Subscription(IServiceProvider sp) : BackgroundService
+class SubscriptionService(IServiceProvider sp) : BackgroundService
 {
     readonly TimeSpan checkInterval = TimeSpan.FromSeconds(5);
 
@@ -14,7 +14,7 @@ class Subscription(IServiceProvider sp) : BackgroundService
             using var scope = sp.CreateScope();
             var cyclicFeeRepo = scope.ServiceProvider.GetRequiredService<Repository<CyclicFee>>();
             var transactionRepo = scope.ServiceProvider.GetRequiredService<Repository<Transaction>>();
-            var unpaidCyclicFees = await cyclicFeeRepo.GetAll(restrict: x => x.UpdatedAt + x.PaymentInterval < DateTime.Now, expand: [x => x.Payment]);
+            var unpaidCyclicFees = await cyclicFeeRepo.GetAll(restrict: x => x.UpdatedAt + x.PaymentInterval < DateTime.Now, expand: [x => x.Payment], ct: ct);
             foreach (var s in unpaidCyclicFees)
             {
                 await cyclicFeeRepo.UpdateAsync(s, ct);

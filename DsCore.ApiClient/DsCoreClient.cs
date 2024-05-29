@@ -559,14 +559,14 @@ namespace DsCore.ApiClient
         }
 
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<long> Billing_AddCyclicFeeAsync(Payment payment)
+        public virtual System.Threading.Tasks.Task<long> Billing_AddCyclicFeeAsync(Payment payment, System.TimeSpan? paymentInterval)
         {
-            return Billing_AddCyclicFeeAsync(payment, System.Threading.CancellationToken.None);
+            return Billing_AddCyclicFeeAsync(payment, paymentInterval, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<long> Billing_AddCyclicFeeAsync(Payment payment, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<long> Billing_AddCyclicFeeAsync(Payment payment, System.TimeSpan? paymentInterval, System.Threading.CancellationToken cancellationToken)
         {
             if (payment == null)
                 throw new System.ArgumentNullException("payment");
@@ -588,6 +588,12 @@ namespace DsCore.ApiClient
                 
                     // Operation Path: "Billing/cyclic-fee"
                     urlBuilder_.Append("Billing/cyclic-fee");
+                    urlBuilder_.Append('?');
+                    if (paymentInterval != null)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("paymentInterval")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(paymentInterval, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
 
                     PrepareRequest(client_, request_, urlBuilder_);
 

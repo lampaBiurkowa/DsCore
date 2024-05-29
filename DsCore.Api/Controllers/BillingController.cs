@@ -49,12 +49,12 @@ public class BillingController(
 
     [Authorize]
     [HttpPost("cyclic-fee")]
-    public async Task<ActionResult<long>> AddCyclicFee(Payment payment, CancellationToken ct)
+    public async Task<ActionResult<long>> AddCyclicFee(Payment payment, TimeSpan paymentInterval, CancellationToken ct)
     {
         var userGuid = HttpContext.GetUserGuid();
         if (userGuid == null) return Unauthorized();
 
-        var cyclicFee = new CyclicFee { Payment = payment };
+        var cyclicFee = new CyclicFee { Payment = payment, PaymentInterval = paymentInterval};
         await cyclicFeeRepo.InsertAsync(cyclicFee, ct);
         await cyclicFeeRepo.CommitAsync(ct);
 
