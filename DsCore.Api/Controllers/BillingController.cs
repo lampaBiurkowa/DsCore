@@ -1,10 +1,12 @@
 using DibBase.Infrastructure;
-using DsCore.Api.Models;
 using DsCore.ApiClient;
 using Microsoft.AspNetCore.Mvc;
 using DibBase.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Payment = DsCore.Api.Models.Payment;
+using Transaction = DsCore.Api.Models.Transaction;
+using CyclicFee = DsCore.Api.Models.CyclicFee;
+using DibBaseApi;
 
 namespace DsCore.Api;
 
@@ -43,8 +45,8 @@ public class BillingController(
     }
 
     [Authorize]
-    [HttpPost("subscribe")]
-    public async Task<ActionResult<long>> Subscribe(Payment payment, CancellationToken ct)
+    [HttpPost("cyclic-fee")]
+    public async Task<ActionResult<long>> AddCyclicFee(Payment payment, CancellationToken ct)
     {
         var userGuid = HttpContext.GetUserGuid();
         if (userGuid == null) return Unauthorized();
@@ -57,8 +59,8 @@ public class BillingController(
     }
 
     [Authorize]
-    [HttpPost("subscribction/{guid}/cancel")]
-    public async Task<ActionResult<long>> Subscribe(Guid guid, CancellationToken ct)
+    [HttpPost("cyclic-fee/{guid}/cancel")]
+    public async Task<ActionResult<long>> CancelCyclicFee(Guid guid, CancellationToken ct)
     {
         var userGuid = HttpContext.GetUserGuid();
         if (userGuid == null) return Unauthorized();
@@ -68,5 +70,33 @@ public class BillingController(
 
         await cyclicFeeRepo.DeleteAsync(guid.Deobfuscate().Id, ct);
         return Ok();
+    }
+
+    [Authorize]
+    [HttpGet("cyclic-fee/{guid}")]
+    public async Task<ActionResult<CyclicFee>> GetCyclicFee(Guid guid, CancellationToken ct)
+    {
+        var userGuid = HttpContext.GetUserGuid();
+        if (userGuid == null) return Unauthorized();
+
+        var cyclicFee = await cyclicFeeRepo.GetById(guid.Deobfuscate().Id, [x => x.Payment], ct);
+        if (cyclicFee == null) return NotFound();
+        if (cyclicFee.Payment.UserGuid != userGuid) return Unauthorized();
+
+        return Ok(IdHelper.HidePrivateId(cyclicFee));
+    }
+
+    [Authorize]
+    [HttpGet("transaction/{guid}")]
+    public async Task<ActionResult<Transaction>> GetTransaction(Guid guid, CancellationToken ct)
+    {
+        var userGuid = HttpContext.GetUserGuid();
+        if (userGuid == null) return Unauthorized();
+
+        var transaction = await transactionRepo.GetById(guid.Deobfuscate().Id, [x => x.Payment], ct);
+        if (transaction == null) return NotFound();
+        if (transaction.Payment.UserGuid != userGuid) return Unauthorized();
+
+        return Ok(IdHelper.HidePrivateId(transaction));
     }
 }
