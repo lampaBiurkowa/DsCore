@@ -13,7 +13,7 @@ class Subscription(IServiceProvider sp) : BackgroundService
         {
             using var scope = sp.CreateScope();
             var cyclicFeeRepo = scope.ServiceProvider.GetRequiredService<Repository<CyclicFee>>();
-            var transactionRepo = scope.ServiceProvider.GetRequiredService<Repository<CyclicFee>>();
+            var transactionRepo = scope.ServiceProvider.GetRequiredService<Repository<Transaction>>();
             var unpaidCyclicFees = await cyclicFeeRepo.GetAll(restrict: x => x.UpdatedAt + x.PaymentInterval < DateTime.Now, expand: [x => x.Payment]);
             foreach (var s in unpaidCyclicFees)
             {
