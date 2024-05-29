@@ -4,6 +4,7 @@ using DsCore.Api.Options;
 using DsCore.Infrastructure;
 using DsStorage.ApiClient;
 using Microsoft.EntityFrameworkCore;
+using DsCore.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCors();
@@ -31,6 +32,7 @@ builder.Services.AddOptions<TokenOptions>()
     .ValidateDataAnnotations();
 builder.Configuration.AddDsStorage(builder.Services);
 builder.Services.AddAuthorization();
+builder.Services.AddHostedService<SubscribtionService>();
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())

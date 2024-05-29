@@ -10,6 +10,10 @@ public class DsCoreContext : DibContext
     public DbSet<User> User { get; set; }
     public DbSet<Follow> Follow { get; set; }
     public DbSet<Credentials> Credentials { get; set; }
+    public DbSet<Currency> Currency { get; set; }
+    public DbSet<Subscribtion> Subscribtion { get; set; }
+    public DbSet<Payment> Payment { get; set; }
+    public DbSet<Transaction> Transaction { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
