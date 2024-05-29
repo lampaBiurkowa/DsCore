@@ -5,6 +5,8 @@ using DsCore.Infrastructure;
 using DsStorage.ApiClient;
 using Microsoft.EntityFrameworkCore;
 using DsCore.Services;
+using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCors();
@@ -13,7 +15,30 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSwaggerDocument();
+builder.Services.AddSwaggerGen(c => {
+    var jwtSecurityScheme = new OpenApiSecurityScheme
+    {
+        BearerFormat = "JWT",
+        Name = "JWT Authentication",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.Http,
+        Scheme = JwtBearerDefaults.AuthenticationScheme,
+        Description = "Put **_ONLY_** your JWT Bearer token on textbox below!",
 
+        Reference = new OpenApiReference
+        {
+            Id = JwtBearerDefaults.AuthenticationScheme,
+            Type = ReferenceType.SecurityScheme
+        }
+    };
+
+    c.AddSecurityDefinition(jwtSecurityScheme.Reference.Id, jwtSecurityScheme);
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        { jwtSecurityScheme, Array.Empty<string>() }
+    });
+});
 builder.Services.AddDbContext<DbContext, DsCoreContext>();
 var entityTypes = new List<Type>();
 var assemblies = AppDomain.CurrentDomain.GetAssemblies();
@@ -31,6 +56,7 @@ builder.Services.AddOptions<TokenOptions>()
     .Bind(builder.Configuration.GetSection(TokenOptions.SECTION))
     .ValidateDataAnnotations();
 builder.Configuration.AddDsStorage(builder.Services);
+builder.Configuration.AddDsCore(builder.Services);
 builder.Services.AddAuthorization();
 builder.Services.AddHostedService<SubscriptionService>();
 var app = builder.Build();

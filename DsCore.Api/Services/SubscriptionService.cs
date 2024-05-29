@@ -5,7 +5,7 @@ namespace DsCore.Services;
 
 class SubscriptionService(IServiceProvider sp) : BackgroundService
 {
-    readonly TimeSpan checkInterval = TimeSpan.FromSeconds(5);
+    readonly TimeSpan checkInterval = TimeSpan.FromMinutes(1);
 
     protected override async Task ExecuteAsync(CancellationToken ct)
     {

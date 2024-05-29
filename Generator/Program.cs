@@ -1,6 +1,6 @@
 ﻿using DsCore.Infrastructure;
 using DsCore.Api.Models;
-using DsCore.Api.Helpers;
+using DsCryptoLib;
 
 public class Generator
 {

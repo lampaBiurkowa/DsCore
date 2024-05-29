@@ -26,7 +26,11 @@ public class BillingController(
         var userGuid = HttpContext.GetUserGuid();
         if (userGuid == null) return Unauthorized();
 
-        var transactions = await transactionRepo.GetAll(restrict: x => x.Payment.CurrencyGuid == currencyGuid && x.Payment.UserGuid == userGuid, expand: [x => x.Payment], ct: ct);
+        var transactions = await transactionRepo.GetAll(
+            restrict: x => x.Payment.CurrencyId == currencyGuid.Deobfuscate().Id && x.Payment.UserId == ((Guid)userGuid).Deobfuscate().Id,
+            expand: [x => x.Payment], ct: ct
+        );
+
         return Ok(transactions.Sum(x => x.Payment.Value));
     }
 
@@ -37,8 +41,9 @@ public class BillingController(
         var userGuid = HttpContext.GetUserGuid();
         if (userGuid == null) return Unauthorized();
 
+        payment.UserGuid = (Guid)userGuid;
         var transaction = new Transaction { Payment = payment };
-        if ((await GetMoney(payment.Currency.Guid, ct)).Value < payment.Value)
+        if (payment.Value < 0 && (await GetMoney(payment.Currency.Guid, ct)).Value < payment.Value)
             return Ok(null);
 
         await transactionRepo.InsertAsync(transaction, ct);
@@ -54,7 +59,8 @@ public class BillingController(
         var userGuid = HttpContext.GetUserGuid();
         if (userGuid == null) return Unauthorized();
 
-        if ((await GetMoney(payment.Currency.Guid, ct)).Value < payment.Value)
+        payment.UserGuid = (Guid)userGuid;
+        if (payment.Value < 0 && (await GetMoney(payment.Currency.Guid, ct)).Value < payment.Value)
             return Ok(null);
 
         var cyclicFee = new CyclicFee { Payment = payment, PaymentInterval = paymentInterval};

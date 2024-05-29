@@ -9,11 +9,11 @@ public class Payment : Entity
     public Guid UserGuid { get; set; }
     [DsLong]
     public long UserId { get; set; }
-    public required User User { get; set; }
+    public User? User { get; set; }
     public float Value { get; set; }
     [DsGuid(nameof(Currency))]
     public Guid CurrencyGuid { get; set; }
     [DsLong]
     public long CurrencyId { get; set; }
-    public Currency Currency { get; set; }
+    public Currency? Currency { get; set; }
 }
