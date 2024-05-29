@@ -559,14 +559,14 @@ namespace DsCore.ApiClient
         }
 
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<long> Billing_AddCyclicFeeAsync(Payment payment, System.TimeSpan? paymentInterval)
+        public virtual System.Threading.Tasks.Task<bool> Billing_AddCyclicFeeAsync(Payment payment, System.TimeSpan? paymentInterval)
         {
             return Billing_AddCyclicFeeAsync(payment, paymentInterval, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<long> Billing_AddCyclicFeeAsync(Payment payment, System.TimeSpan? paymentInterval, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<bool> Billing_AddCyclicFeeAsync(Payment payment, System.TimeSpan? paymentInterval, System.Threading.CancellationToken cancellationToken)
         {
             if (payment == null)
                 throw new System.ArgumentNullException("payment");
@@ -620,7 +620,7 @@ namespace DsCore.ApiClient
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<long>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<bool>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
