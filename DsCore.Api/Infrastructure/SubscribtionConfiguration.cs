@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DsCore.Api.Infrastructure;
 
-public class SubscriptionEntityTypeConfiguration : IEntityTypeConfiguration<Subscription>
+public class CyclicFeeEntityTypeConfiguration : IEntityTypeConfiguration<CyclicFee>
 {
-    public void Configure(EntityTypeBuilder<Subscription> builder)
+    public void Configure(EntityTypeBuilder<CyclicFee> builder)
     {
         builder.Property(x => x.PaymentId).IsRequired();
         builder.Property(x => x.PaymentInterval).IsRequired();

@@ -3,7 +3,7 @@ using DibBase.Obfuscation;
 
 namespace DsCore.Api.Models;
 
-public class Subscription : Entity, ISoftDelete, ITimeStamped
+public class CyclicFee : Entity, ISoftDelete, ITimeStamped
 {
     public Payment Payment { get; set; }
     [DsLong]
