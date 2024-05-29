@@ -32,19 +32,19 @@ public class BillingController(
 
     [Authorize]
     [HttpPost("pay")]
-    public async Task<ActionResult<bool>> PayOnce(Payment payment, CancellationToken ct)
+    public async Task<ActionResult<Guid?>> PayOnce(Payment payment, CancellationToken ct)
     {
         var userGuid = HttpContext.GetUserGuid();
         if (userGuid == null) return Unauthorized();
 
         var transaction = new Transaction { Payment = payment };
         if ((await GetMoney(payment.Currency.Guid, ct)).Value < payment.Value)
-            return Ok(false);
+            return Ok(null);
 
         await transactionRepo.InsertAsync(transaction, ct);
         await transactionRepo.CommitAsync(ct);
 
-        return Ok(true);
+        return Ok(transaction.Guid);
     }
 
     [Authorize]
