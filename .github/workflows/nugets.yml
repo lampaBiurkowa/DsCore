@@ -29,3 +29,9 @@ jobs:
         run: dotnet pack DsCore.ApiClient/DsCore.ApiClient.csproj --configuration Release /p:Version=${{ env.version }}
       - name: Publish to github
         run: dotnet nuget push DsCore.ApiClient/bin/Release/*.nupkg  -k ${{ secrets.GH_TOKEN }} -s https://nuget.pkg.github.com/DibrySoft/index.json --skip-duplicate
+          
+      - run: dotnet build DsCore.Events/DsCore.Events.csproj --configuration Release /p:Version=${{ env.version}}
+      - name: Create the package
+        run: dotnet pack DsCore.Events/DsCore.Events.csproj --configuration Release /p:Version=${{ env.version }}
+      - name: Publish to github
+        run: dotnet nuget push DsCore.Events/bin/Release/*.nupkg  -k ${{ secrets.GH_TOKEN }} -s https://nuget.pkg.github.com/DibrySoft/index.json --skip-duplicate

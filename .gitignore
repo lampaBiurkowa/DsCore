@@ -53,3 +53,5 @@ Thumbs.db
 *.swp
 setup.sh
 *.ts
+
+DsCore.Api/appsettings.Development.json
