@@ -10,6 +10,8 @@ public class Generator
         db.Database.EnsureDeleted();
         db.Database.EnsureCreated();
 
+        db.Currency.Add(new() { Name = "Ruble"});
+
         db.User.Add(new () { Alias = "d", Email = "d@d.d", Surname = "d", Name = "d", ProfileImage="wawrzyn1.png"});
         db.User.Add(new () { Alias = "e", Email = "e@e.e", Surname = "e", Name = "e", ProfileImage="npc.png"});
         db.User.Add(new () { Alias = "suhy", Email = "f@d.d", Surname = "Suchojad", Name = "Krzysztof", ProfileImage="suhojad.png"});
@@ -40,6 +42,17 @@ public class Generator
             };
             db.Credentials.Add(credentials);
         }
+        db.SaveChanges();
+
+        db.Transaction.Add(new()
+        {
+            Payment = new()
+            {
+                Currency = db.Currency.ElementAt(0),
+                User = db.User.ElementAt(0),
+                Value = 1000,
+            }
+        });
         db.SaveChanges();
     }
 }
