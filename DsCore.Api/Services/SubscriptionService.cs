@@ -1,7 +1,7 @@
 using DibBase.Infrastructure;
 using DsCore.Api.Models;
 
-namespace DsCore.Services;
+namespace DsCore.Api.Services;
 
 class SubscriptionService(IServiceProvider sp) : BackgroundService
 {

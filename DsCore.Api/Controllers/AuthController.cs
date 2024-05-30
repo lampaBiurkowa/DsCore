@@ -7,6 +7,7 @@ using Microsoft.Extensions.Options;
 using User = DsCore.Api.Models.User;
 using DibBase.Extensions;
 using DsCryptoLib;
+using DsCore.Events;
 
 namespace DsCore.Api;
 
@@ -15,6 +16,7 @@ namespace DsCore.Api;
 public class AuthController(Repository<Credentials> repo, Repository<User> userRepo, IOptions<TokenOptions> options) : ControllerBase
 {
     readonly Repository<User> userRepo = userRepo;
+    readonly TimeSpan verificationCodeValidityTime = TimeSpan.FromMinutes(2);
 
     [HttpPost("login/{userGuid}")]
     public async Task<ActionResult<string>> Login(Guid userGuid, string passwordBase64, CancellationToken ct)
@@ -43,10 +45,13 @@ public class AuthController(Repository<Credentials> repo, Repository<User> userR
             Password = passwordNewHash,
             Salt = salt,
             User = user,
-            VerificationCode = SecretsBuilder.TextToBase64(verificationCode)
+            VerificationCode = SecretsBuilder.TextToBase64(verificationCode),
+            VerificationCodeValidUntil = DateTime.UtcNow + verificationCodeValidityTime
         };
         
         await repo.InsertAsync(credentials, ct);
+        await repo.CommitAsync(ct);
+        await repo.RegisterEvent(new VerificationCodeEvent { UserGuid = user.Guid, VerificationCode = verificationCode }, ct);
         await repo.CommitAsync(ct);
 
         return Ok(user.Guid);
@@ -59,11 +64,32 @@ public class AuthController(Repository<Credentials> repo, Repository<User> userR
         if (credentials == null)
             return Unauthorized();
         
-        if (credentials.VerificationCode != verificationCodeBase64)
+        if (credentials.VerificationCode != verificationCodeBase64 || credentials.VerificationCodeValidUntil < DateTime.UtcNow)
             return Unauthorized();
 
         credentials.IsActivated = true;
         await repo.UpdateAsync(credentials, ct);
+        await repo.RegisterEvent(new RegisteredEvent { UserGuid = userGuid }, ct);
+        await repo.CommitAsync(ct);
+
+        return Ok();
+    }
+
+    [HttpPost("activate/{userGuid}/regenerate-code")]
+    public async Task<IActionResult> RegenerateCode(Guid userGuid, string verificationCodeBase64, CancellationToken ct)
+    {
+        var credentials = (await repo.GetAll(restrict: x => x.UserId == userGuid.Deobfuscate().Id, ct: ct)).FirstOrDefault();
+        if (credentials == null)
+            return Unauthorized();
+        
+        if (credentials.VerificationCodeValidUntil > DateTime.UtcNow)
+            return BadRequest();
+
+        var verificationCode = SecretsBuilder.GenerateVerificationCode();
+        credentials.VerificationCode = SecretsBuilder.TextToBase64(verificationCode);
+        credentials.VerificationCodeValidUntil = DateTime.UtcNow + verificationCodeValidityTime;
+        await repo.UpdateAsync(credentials, ct);
+        await repo.RegisterEvent(new VerificationCodeEvent { UserGuid = userGuid, VerificationCode = verificationCode }, ct);
         await repo.CommitAsync(ct);
 
         return Ok();

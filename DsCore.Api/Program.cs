@@ -4,9 +4,11 @@ using DsCore.Api.Options;
 using DsCore.Infrastructure;
 using DsStorage.ApiClient;
 using Microsoft.EntityFrameworkCore;
-using DsCore.Services;
+using DsCore.Api.Services;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using DsNotifier.Client;
+using DsCore.Events;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCors();
@@ -43,6 +45,7 @@ builder.Services.AddDbContext<DbContext, DsCoreContext>();
 var entityTypes = new List<Type>();
 var assemblies = AppDomain.CurrentDomain.GetAssemblies();
 DsCore.Api.Models.User a;//█▬█ █ ▀█▀
+ToppedUpEvent b; //█▬█ █ ▀█▀
 foreach (var assembly in assemblies)
 {
     entityTypes.AddRange(assembly.GetTypes().Where(type => type.IsSubclassOf(typeof(DibBase.ModelBase.Entity))).ToList());
@@ -57,6 +60,8 @@ builder.Services.AddOptions<TokenOptions>()
     .ValidateDataAnnotations();
 builder.Configuration.AddDsStorage(builder.Services);
 builder.Configuration.AddDsCore(builder.Services);
+builder.Services.AddDsNotifier(builder.Configuration);
+// builder.Services.AddHostedService<EventService>();
 builder.Services.AddAuthorization();
 builder.Services.AddHostedService<SubscriptionService>();
 var app = builder.Build();

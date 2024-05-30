@@ -7,6 +7,7 @@ using Payment = DsCore.Api.Models.Payment;
 using Transaction = DsCore.Api.Models.Transaction;
 using CyclicFee = DsCore.Api.Models.CyclicFee;
 using DibBaseApi;
+using DsCore.Events;
 
 namespace DsCore.Api;
 
@@ -47,6 +48,16 @@ public class BillingController(
             return Ok(null);
 
         await transactionRepo.InsertAsync(transaction, ct);
+        if (payment.Value > 0)
+        {
+            await transactionRepo.RegisterEvent(new ToppedUpEvent
+            {
+                CurrecyGuid = payment.CurrencyGuid,
+                UserGuid = (Guid)userGuid,
+                Value = payment.Value
+            }, ct);
+        }
+
         await transactionRepo.CommitAsync(ct);
 
         return Ok(transaction.Guid);

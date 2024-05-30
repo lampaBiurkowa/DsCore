@@ -25,7 +25,7 @@ public class Generator
         db.Database.EnsureDeleted();
         db.Database.EnsureCreated();
 
-        db.Currency.Add(new() { Name = "Ruble"});
+        db.Currency.Add(new() { Name = "Ruble", Symbol = "₽"});
 
         db.User.Add(GetUser("d", "d@d.d",  "d", "d", "wawrzyn1.png"));
         db.User.Add(GetUser("e", "e@e.e",  "e", "e", "npc.png"));

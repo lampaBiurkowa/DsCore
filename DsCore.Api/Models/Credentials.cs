@@ -14,4 +14,5 @@ public class Credentials : Entity
     public long UserId { get; set; }
     public required User User { get; set; }
     public bool IsActivated { get; set; }
+    public DateTime VerificationCodeValidUntil { get; set; }
 }
