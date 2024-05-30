@@ -904,8 +904,8 @@ namespace DsCore.ApiClient
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "Currency/currency"
-                    urlBuilder_.Append("Currency/currency");
+                    // Operation Path: "Currency"
+                    urlBuilder_.Append("Currency");
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -983,8 +983,8 @@ namespace DsCore.ApiClient
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "Currency/currency/{guid}"
-                    urlBuilder_.Append("Currency/currency/");
+                    // Operation Path: "Currency/{guid}"
+                    urlBuilder_.Append("Currency/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(guid, System.Globalization.CultureInfo.InvariantCulture)));
 
                     PrepareRequest(client_, request_, urlBuilder_);
@@ -1063,8 +1063,8 @@ namespace DsCore.ApiClient
 
                     var urlBuilder_ = new System.Text.StringBuilder();
                 
-                    // Operation Path: "Currency/currency/name/{name}"
-                    urlBuilder_.Append("Currency/currency/name/");
+                    // Operation Path: "Currency/name/{name}"
+                    urlBuilder_.Append("Currency/name/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(name, System.Globalization.CultureInfo.InvariantCulture)));
 
                     PrepareRequest(client_, request_, urlBuilder_);

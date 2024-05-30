@@ -12,10 +12,10 @@ public class CurrencyController(Repository<Currency> currencyRepo) : ControllerB
 {
     readonly Repository<Currency> currencyRepo = currencyRepo;
 
-    [HttpGet("currency")]
+    [HttpGet]
     public async Task<ActionResult<List<Currency>>> GetCurrencies(CancellationToken ct) => await currencyRepo.GetAll(ct: ct);
 
-    [HttpGet("currency/{guid}")]
+    [HttpGet("{guid}")]
     public async Task<ActionResult<Currency?>> GetCurrency(Guid guid, CancellationToken ct)
     {
         var currency = await currencyRepo.GetById(guid.Deobfuscate().Id, ct: ct);
@@ -24,7 +24,7 @@ public class CurrencyController(Repository<Currency> currencyRepo) : ControllerB
         return Ok(IdHelper.HidePrivateId(currency));
     }
 
-    [HttpGet("currency/name/{name}")]
+    [HttpGet("name/{name}")]
     public async Task<ActionResult<Currency?>> GetCurrency(string name, CancellationToken ct)
     {
         var currency = (await currencyRepo.GetAll(restrict: x => x.Name == name, ct: ct)).FirstOrDefault();
