@@ -16,6 +16,29 @@ public class UserController(Repository<User> repo, Repository<Follow> followRepo
 {
     const int ONLINE_TIME_TRESHOLD = 2;
 
+    [Authorize]
+    [HttpPost]
+    public override async Task<ActionResult<Guid>> Add(User entity, CancellationToken ct) => await base.Add(entity, ct);
+
+    [Authorize]
+    [HttpPut]
+    public override async Task<ActionResult<Guid>> Update(User entity, CancellationToken ct)
+    {
+        if (!HttpContext.IsUser(entity.Guid)) return Unauthorized();
+        return await base.Update(entity, ct);
+    }
+
+    [Authorize]
+    [HttpDelete]
+    public override async Task<IActionResult> Delete(Guid id, CancellationToken ct)
+    {
+        var item = await repo.GetById(id.Deobfuscate().Id, ct: ct);
+        if (item == null) return Problem();
+        if (!HttpContext.IsUser(item.Guid)) return Unauthorized();
+
+        return await base.Delete(id, ct);
+    }
+
     [HttpGet]
     [Route("ReportOnline/{id}")]
     public async Task<ActionResult> ReportOnline(Guid id, CancellationToken ct)
