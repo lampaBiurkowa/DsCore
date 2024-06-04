@@ -41,6 +41,9 @@ public class Generator
         db.User.Add(GetUser("biden", "o@d.d",  "Biden", "Joe", "biden.jpg"));
         db.User.Add(GetUser("trump", "p@d.d",  "Trump", "Donald J", "trump.jpg"));
         db.User.Add(GetUser("sussy", "q@d.d",  "Supińska", "Karolina", "suspinska.png"));
+        db.User.Add(GetUser("brozis", "r@d.d",  "Brozis", "Mirosław", "brozis.jpg"));
+        db.User.Add(GetUser("mul", "s@d.d",  "Mul", "Jolanta", "mul.jpg"));
+        db.User.Add(GetUser("wujek", "t@d.d",  "Sikorski", "Piotr", "wujek.jpg"));
         db.SaveChanges();
 
         for (int i = 0; i < db.User.Count(); i++)
