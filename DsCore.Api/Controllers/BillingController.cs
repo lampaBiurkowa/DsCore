@@ -44,8 +44,8 @@ public class BillingController(
 
         payment.UserGuid = (Guid)userGuid;
         var transaction = new Transaction { Payment = payment };
-        if (payment.Value < 0 && (await GetMoney(payment.CurrencyGuid, ct)).Value < payment.Value)
-            return Ok(null);
+        if (payment.Value < 0 && (await GetMoney(payment.CurrencyGuid, ct)).Value < -payment.Value)
+            return Ok();
 
         await transactionRepo.InsertAsync(transaction, ct);
         if (payment.Value > 0)
