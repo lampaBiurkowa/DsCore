@@ -15,7 +15,7 @@
     <PackageReference Include="DsNotifier.Client" Version="1.0.11" />
     <PackageReference Include="DsStorage.ApiClient" Version="1.0.9" PrivateAssets="all" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.3" />
-    <PackageReference Include="Microsoft.NET.Build.Containers" Version="8.0.0" />
+    <PackageReference Include="Microsoft.NET.Build.Containers" Version="8.0.100" />
     <PackageReference Include="NSwag.AspNetCore" Version="14.0.7" />
     <PackageReference Include="NSwag.CodeGeneration" Version="14.0.7" />
     <PackageReference Include="NSwag.CodeGeneration.CSharp" Version="14.0.7" />
