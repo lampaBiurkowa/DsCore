@@ -8,6 +8,7 @@ on:
 
 env:
   version: 1.0.${GITHUB_RUN_NUMBER}
+  IMAGE_NAME: ds-core-api
 
 jobs:
   deploy:
@@ -39,8 +40,6 @@ jobs:
 
   deploy-image:
     runs-on: ubuntu-latest
-    env:
-      IMAGE_NAME: ds-core-api
     permissions:
       packages: write
       contents: read
@@ -58,7 +57,7 @@ jobs:
     - name: Push image
       run: |
         docker login --username=${{secrets.GH_USERNAME}} --password="${{secrets.GH_TOKEN}}" ghcr.io
-        docker image tag $IMAGE_NAME:latest ghcr.io/dibrysoft/$IMAGE_NAME:${{ env.version }}
-        docker image tag $IMAGE_NAME:latest ghcr.io/dibrysoft/$IMAGE_NAME:latest
-        docker image push ghcr.io/dibrysoft/$IMAGE_NAME:${{ env.version }}
-        docker image push ghcr.io/dibrysoft/$IMAGE_NAME:latest
+        docker image tag ${{ env.IMAGE_NAME }}:latest ghcr.io/dibrysoft/${{ env.IMAGE_NAME }}:${{ env.version }}
+        docker image tag ${{ env.IMAGE_NAME }}:latest ghcr.io/dibrysoft/${{ env.IMAGE_NAME }}:latest
+        docker image push ghcr.io/dibrysoft/${{ env.IMAGE_NAME }}:${{ env.version }}
+        docker image push ghcr.io/dibrysoft/${{ env.IMAGE_NAME }}:latest
