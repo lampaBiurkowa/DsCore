@@ -6,9 +6,9 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace DsCore.ApiClient;
 
-public static class ConfigurationExtensions
+public static class IServiceCollectionExtensions
 {
-    public static void AddDsCore(this IConfiguration configuration, IServiceCollection services)
+    public static void AddDsCore(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddOptions<DsCoreOptions>()
             .Bind(configuration.GetSection(DsCoreOptions.SECTION));

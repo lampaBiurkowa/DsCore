@@ -8,7 +8,7 @@ public class DsCoreClientFactory(IHttpClientFactory httpClientFactory, IOptions<
     readonly IHttpClientFactory _httpClientFactory = httpClientFactory;
     readonly DsCoreOptions options = options.Value;
 
-    public DsCoreClient CreateClient(string bearerToken)
+    public DsCoreClient CreateClient(string bearerToken = "")
     {
         var client = _httpClientFactory.CreateClient();
         client.BaseAddress = new ($"{options.Url.TrimEnd('/')}/");

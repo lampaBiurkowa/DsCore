@@ -59,7 +59,7 @@ builder.Services.AddOptions<TokenOptions>()
     .Bind(builder.Configuration.GetSection(TokenOptions.SECTION))
     .ValidateDataAnnotations();
 builder.Configuration.AddDsStorage(builder.Services);
-builder.Configuration.AddDsCore(builder.Services);
+builder.Services.AddDsCore(builder.Configuration);
 builder.Services.AddDsNotifier(builder.Configuration);
 // builder.Services.AddHostedService<EventService>();
 builder.Services.AddAuthorization();

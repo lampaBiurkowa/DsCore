@@ -5,7 +5,7 @@ namespace DsCore.Api.Models;
 
 public class CyclicFee : Entity, ISoftDelete, ITimeStamped
 {
-    public Payment Payment { get; set; }
+    public Payment? Payment { get; set; }
     [DsLong]
     public long PaymentId { get; set; }
     public TimeSpan PaymentInterval { get; set; }

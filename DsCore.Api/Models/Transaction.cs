@@ -5,7 +5,7 @@ namespace DsCore.Api.Models;
 
 public class Transaction : Entity, ITimeStamped
 {
-    public Payment Payment { get; set; }
+    public Payment? Payment { get; set; }
     [DsLong]
     public long PaymentId { get; set; }
     public DateTime CreatedAt { get; set; }
