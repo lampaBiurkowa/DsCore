@@ -53,6 +53,7 @@ jobs:
         NUGET_AUTH_TOKEN: ${{secrets.GH_TOKEN}}
     - name: Build image
       run: |
+        cat /usr/share/dotnet/sdk/8.0.301/NuGet.targets
         dotnet publish --os linux --arch x64 -p:PublishProfile=DefaultContainer -c Release
     - name: Push image
       run: |
