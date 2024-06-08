@@ -44,6 +44,7 @@ public class Generator
         db.User.Add(GetUser("brozis", "r@d.d",  "Brozis", "Mirosław", "brozis.jpg"));
         db.User.Add(GetUser("mul", "s@d.d",  "Mól", "Jolanta", "mul.jpg"));
         db.User.Add(GetUser("wujek", "t@d.d",  "Sikorski", "Piotr", "wujek.jpg"));
+        db.User.Add(GetUser("kleban", "u@d.d",  "Kleban", "Wojciech", "kleban.jpg"));
         db.SaveChanges();
 
         for (int i = 0; i < db.User.Count(); i++)
