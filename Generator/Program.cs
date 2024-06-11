@@ -1,6 +1,8 @@
 ﻿using DsCore.Infrastructure;
 using DsCore.Api.Models;
 using DsCryptoLib;
+using DibBase.Options;
+using Microsoft.Extensions.Options;
 
 public class Generator
 {
@@ -21,7 +23,7 @@ public class Generator
 
     public static void Main()
     {
-        var db = new DsCoreContext();
+        var db = new DsCoreContext(Options.Create(new DsDbLibOptions { DatabaseName = "DsCore", Password = "root", User = "root", Host = "localhost", ObfuscationKey = ""}));
         db.Database.EnsureDeleted();
         db.Database.EnsureCreated();
 

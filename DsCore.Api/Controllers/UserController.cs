@@ -12,7 +12,10 @@ namespace DsCore.Api;
 
 [ApiController]
 [Route("[controller]")]
-public class UserController(Repository<User> repo, Repository<Follow> followRepo, DsStorageClientFactory dsStorage) : EntityController<User>(repo)
+public class UserController(
+    Repository<User> repo,
+    Repository<Follow> followRepo,
+    DsStorageClientFactory dsStorage) : EntityController<User>(repo)
 {
     const int ONLINE_TIME_TRESHOLD = 2;
 

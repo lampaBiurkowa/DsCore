@@ -9,6 +9,7 @@ using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using DsNotifier.Client;
 using DsCore.Events;
+using DibBase.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCors();
@@ -35,16 +36,17 @@ builder.Services.AddSwaggerGen(c => {
     };
 
     c.AddSecurityDefinition(jwtSecurityScheme.Reference.Id, jwtSecurityScheme);
-
     c.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         { jwtSecurityScheme, Array.Empty<string>() }
     });
 });
+builder.Services.AddOptions<DsDbLibOptions>()
+    .Bind(builder.Configuration.GetSection(DsDbLibOptions.SECTION))
+    .ValidateDataAnnotations();
 builder.Services.AddDbContext<DbContext, DsCoreContext>();
 var entityTypes = new List<Type>();
 var assemblies = AppDomain.CurrentDomain.GetAssemblies();
-DsCore.Api.Models.User a;//█▬█ █ ▀█▀
 ToppedUpEvent b; //█▬█ █ ▀█▀
 foreach (var assembly in assemblies)
 {
@@ -61,7 +63,6 @@ builder.Services.AddOptions<TokenOptions>()
 builder.Configuration.AddDsStorage(builder.Services);
 builder.Services.AddDsCore(builder.Configuration);
 builder.Services.AddDsNotifier(builder.Configuration);
-// builder.Services.AddHostedService<EventService>();
 builder.Services.AddAuthorization();
 builder.Services.AddHostedService<SubscriptionService>();
 var app = builder.Build();
