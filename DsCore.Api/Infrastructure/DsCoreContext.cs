@@ -20,7 +20,7 @@ public class DsCoreContext(IOptions<DsDbLibOptions> options) : DibContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseMySql($"Server={options.Value.Host};Database={options.Value.DatabaseName};User={options.Value.User};Password={options.Value.Password};",
+        optionsBuilder.UseMySql($"Server={options.Value.Host};Database={options.Value.DatabaseName};User={options.Value.User};Password={options.Value.Password};SSL Mode=None",
         new MySqlServerVersion(new Version(5, 7, 0)));
     }
 
