@@ -60,7 +60,7 @@ foreach (var assembly in assemblies)
 builder.Services.AddOptions<TokenOptions>()
     .Bind(builder.Configuration.GetSection(TokenOptions.SECTION))
     .ValidateDataAnnotations();
-builder.Configuration.AddDsStorage(builder.Services);
+builder.Services.AddDsStorage(builder.Configuration);
 builder.Services.AddDsCore(builder.Configuration);
 builder.Services.AddDsNotifier(builder.Configuration);
 builder.Services.AddAuthorization();
