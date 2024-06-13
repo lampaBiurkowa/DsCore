@@ -72,7 +72,7 @@ public class BillingController(
         if (userGuid == null) return Unauthorized();
 
         payment.UserGuid = (Guid)userGuid;
-        if (payment.Value < 0 && (await GetMoney(payment.Currency.Guid, ct)).Value < payment.Value)
+        if (payment.Value < 0 && (await GetMoney(payment.CurrencyGuid, ct)).Value < payment.Value)
             return Ok(null);
 
         var cyclicFee = new CyclicFee { Payment = payment, PaymentInterval = paymentInterval};

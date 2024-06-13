@@ -1,7 +1,6 @@
 using DibBase.Infrastructure;
 using DibBase.Options;
 using DsCore.Api.Models;
-using DsCore.Api.Options;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System.Reflection;
