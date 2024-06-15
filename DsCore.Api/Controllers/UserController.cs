@@ -101,8 +101,10 @@ public class UserController(
         var user = await repo.GetById(userId, ct: ct);
         if (user == null) return Unauthorized();
         
+        const string userFolder = "user";
         var client = dsStorage.CreateClient(token);
-        var filename = await client.Storage_UploadFileToDefaultBucketAsync(new DsStorage.ApiClient.FileParameter(file.OpenReadStream(), file.FileName, file.ContentType), ct);
+        var filename = await client.Storage_UploadFileToBucketAsync(
+            nameof(DsCore), new DsStorage.ApiClient.FileParameter(file.OpenReadStream(), file.FileName, file.ContentType), userFolder,  ct);
         
         user.ProfileImage = filename;
         await repo.UpdateAsync(user, ct);
