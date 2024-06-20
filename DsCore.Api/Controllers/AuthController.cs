@@ -95,6 +95,16 @@ public class AuthController(Repository<Credentials> repo, Repository<User> userR
         return Ok();
     }
 
+    [HttpGet("is-activated/{userGuid}")]
+    public async Task<ActionResult<bool>> IsActivated(Guid userGuid, CancellationToken ct)
+    {
+        var credentials = (await repo.GetAll(restrict: x => x.UserId == userGuid.Deobfuscate().Id, ct: ct)).FirstOrDefault();
+        if (credentials == null)
+            return Ok(false);
+        
+        return Ok(credentials.IsActivated);
+    }
+
     [HttpPost("changePassword/{userGuid}")]
     public async Task<ActionResult> ChangePassword(Guid userGuid, string oldPasswordBase64, string newPasswordBase64, CancellationToken ct)
     {
