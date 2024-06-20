@@ -76,7 +76,7 @@ public class AuthController(Repository<Credentials> repo, Repository<User> userR
     }
 
     [HttpPost("activate/{userGuid}/regenerate-code")]
-    public async Task<IActionResult> RegenerateCode(Guid userGuid, string verificationCodeBase64, CancellationToken ct)
+    public async Task<IActionResult> RegenerateCode(Guid userGuid, CancellationToken ct)
     {
         var credentials = (await repo.GetAll(restrict: x => x.UserId == userGuid.Deobfuscate().Id, ct: ct)).FirstOrDefault();
         if (credentials == null)

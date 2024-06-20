@@ -311,14 +311,14 @@ namespace DsCore.ApiClient
         }
 
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<FileResponse> Auth_RegenerateCodeAsync(System.Guid userGuid, string verificationCodeBase64)
+        public virtual System.Threading.Tasks.Task<FileResponse> Auth_RegenerateCodeAsync(System.Guid userGuid)
         {
-            return Auth_RegenerateCodeAsync(userGuid, verificationCodeBase64, System.Threading.CancellationToken.None);
+            return Auth_RegenerateCodeAsync(userGuid, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<FileResponse> Auth_RegenerateCodeAsync(System.Guid userGuid, string verificationCodeBase64, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<FileResponse> Auth_RegenerateCodeAsync(System.Guid userGuid, System.Threading.CancellationToken cancellationToken)
         {
             if (userGuid == null)
                 throw new System.ArgumentNullException("userGuid");
@@ -339,12 +339,6 @@ namespace DsCore.ApiClient
                     urlBuilder_.Append("Auth/activate/");
                     urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(userGuid, System.Globalization.CultureInfo.InvariantCulture)));
                     urlBuilder_.Append("/regenerate-code");
-                    urlBuilder_.Append('?');
-                    if (verificationCodeBase64 != null)
-                    {
-                        urlBuilder_.Append(System.Uri.EscapeDataString("verificationCodeBase64")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(verificationCodeBase64, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
-                    }
-                    urlBuilder_.Length--;
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
