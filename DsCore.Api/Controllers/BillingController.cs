@@ -72,12 +72,10 @@ public class BillingController(
         if (userGuid == null) return Unauthorized();
 
         payment.UserGuid = (Guid)userGuid;
-        if (payment.Value < 0 && (await GetMoney(payment.CurrencyGuid, ct)).Value < payment.Value)
+        if (payment.Value < 0 && (await GetMoney(payment.CurrencyGuid, ct)).Value < -payment.Value)
             return Ok(null);
 
-        var cyclicFee = new CyclicFee { Payment = payment, PaymentInterval = paymentInterval};
-        await cyclicFeeRepo.InsertAsync(cyclicFee, ct);
-        await cyclicFeeRepo.CommitAsync(ct);
+        var cyclicFee = await SubmitCyclicFee(payment, paymentInterval, ct);
 
         return Ok(cyclicFee.Guid);
     }
@@ -122,5 +120,15 @@ public class BillingController(
         if (transaction.Payment.UserGuid != userGuid) return Unauthorized();
 
         return Ok(IdHelper.HidePrivateId(transaction));
+    }
+
+    async Task<CyclicFee> SubmitCyclicFee(Payment payment, TimeSpan paymentInterval, CancellationToken ct)
+    {
+        var cyclicFee = new CyclicFee { Payment = payment, PaymentInterval = paymentInterval};
+        await cyclicFeeRepo.InsertAsync(cyclicFee, ct);
+        await transactionRepo.InsertAsync(new() { Payment = payment }, ct);
+        await cyclicFeeRepo.CommitAsync(ct);
+
+        return cyclicFee;
     }
 }
